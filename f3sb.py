@@ -1679,136 +1679,22 @@ def finbot(op):
                                 run_bot["fino1"] = ""
                                 run_bot["fino2"] = ""
                                 run_bot["fino3"] = ""
- 
-                        elif 'auth mac' in msg.text:
-                           if msg._from in Master:
-                              client = createTransport(FINBOT_AUTH_QUERY_PATH_FIR, None, FinbotService.Client)
-                              qr = client.getAuthQrcode(keepLoggedIn=1, systemName="FINBOT")
-                              uri = "line://au/q/" + qr.verifier
-                              _x = "『 Login at 』\n"+ LA + "\n『 By version 』\n"+ UA
-                              kang.sendMessage(msg.to, _x + "\n\n" + "『 " +str(uri) +" 』"+ "\n\nKlik link above for your smartphone for 1 minute")
-                              header = {'User-Agent': UA,'X-Line-Application': LA,"x-lal" : "ja-US_US","x-lpqs" : FINBOT_AUTH_QUERY_PATH_FIR,'X-Line-Access': qr.verifier}
-                              getAccessKey = getJson(host + FINBOT_CERTIFICATE_PATH, header)
-                              client = createTransport(FINBOT_AUTH_QUERY_PATH, None, FinbotLoginService.Client)
-                              req = LoginRequest()
-                              req.type = 1
-                              req.verifier = qr.verifier
-                              req.e2eeVersion = 1
-                              res = client.loginZ(req)
-                              client = createTransport(FINBOT_API_QUERY_PATH_FIR, {'X-Line-Access':res.authToken}, FinbotService.Client)
-                              kang.sendMessage(msg.to,"『 here's your auth 』\n\n" + "『 "+ str(res.authToken) +" 』")
-                              run_bot["Token"] = str(res.authToken)
-                              with open("finbotLogged.json", "w") as fp:
-                              	json.dump(run_bot, fp, sort_keys=True, indent=4)
-                              bot1().botLogin()
-
-                        elif 'auth chrome' in msg.text:
-                           if msg._from in Master:
-                              client = createTransport1(FINBOT_AUTH_QUERY_PATH_FIR, None, FinbotService.Client)
-                              qr = client.getAuthQrcode(keepLoggedIn=1, systemName="FINBOT")
-                              uri = "line://au/q/" + qr.verifier
-                              _x = "『 Login at 』\n"+ LA1 + "\n『 By version 』\n"+ UA1
-                              kang.sendMessage(msg.to, _x + "\n\n" + "『 " +str(uri) +" 』"+ "\n\nKlik link above for your smartphone for 1 minute")
-                              header = {'User-Agent': UA1,'X-Line-Application': LA1,"x-lal" : "ja-US_US","x-lpqs" : FINBOT_AUTH_QUERY_PATH_FIR,'X-Line-Access': qr.verifier}
-                              getAccessKey = getJson(host + FINBOT_CERTIFICATE_PATH, header)
-                              client = createTransport1(FINBOT_AUTH_QUERY_PATH, None, FinbotLoginService.Client)
-                              req = LoginRequest()
-                              req.type = 1
-                              req.verifier = qr.verifier
-                              req.e2eeVersion = 1
-                              res = client.loginZ(req)
-                              client = createTransport1(FINBOT_API_QUERY_PATH_FIR, {'X-Line-Access':res.authToken}, FinbotService.Client)
-                              #print (res.authToken)
-                              kang.sendMessage(msg.to,str(res.authToken))
-  
-                        elif 'auth win' in msg.text:
-                           if msg._from in Master:
-                              client = createTransport2(FINBOT_AUTH_QUERY_PATH_FIR, None, FinbotService.Client)
-                              qr = client.getAuthQrcode(keepLoggedIn=1, systemName="FINBOT")
-                              uri = "line://au/q/" + qr.verifier
-                              _x = "『 Login at 』\n"+ LA2 + "\n『 By version 』\n"+ UA2
-                              kang.sendMessage(msg.to, _x + "\n\n" + "『 " +str(uri) +" 』"+ "\n\nKlik link above for your smartphone for 1 minute")
-                              header = {'User-Agent': UA2,'X-Line-Application': LA2,"x-lal" : "ja-US_US","x-lpqs" : FINBOT_AUTH_QUERY_PATH_FIR,'X-Line-Access': qr.verifier}
-                              getAccessKey = getJson(host + FINBOT_CERTIFICATE_PATH, header)
-                              client = createTransport2(FINBOT_AUTH_QUERY_PATH, None, FinbotLoginService.Client)
-                              req = LoginRequest()
-                              req.type = 1
-                              req.verifier = qr.verifier
-                              req.e2eeVersion = 1
-                              res = client.loginZ(req)
-                              client = createTransport2(FINBOT_API_QUERY_PATH_FIR, {'X-Line-Access':res.authToken}, FinbotService.Client)
-                              #print (res.authToken)
-                              kang.sendMessage(msg.to,str(res.authToken))
-
-                        elif 'auth ios' in msg.text:
-                           if msg._from in Master:
-                              client = createTransport3(FINBOT_AUTH_QUERY_PATH_FIR, None, FinbotService.Client)
-                              qr = client.getAuthQrcode(keepLoggedIn=1, systemName="FINBOT")
-                              uri = "line://au/q/" + qr.verifier
-                              _x = "『 Login at 』\n"+ LA3 + "\n『 By version 』\n"+ UA3
-                              kang.sendMessage(msg.to, _x + "\n\n" + "『 " +str(uri) +" 』"+ "\n\nKlik link above for your smartphone for 1 minute")
-                              header = {'User-Agent': UA3,'X-Line-Application': LA3,"x-lal" : "ja-US_US","x-lpqs" : FINBOT_AUTH_QUERY_PATH_FIR,'X-Line-Access': qr.verifier}
-                              getAccessKey = getJson(host + FINBOT_CERTIFICATE_PATH, header)
-                              client = createTransport3(FINBOT_AUTH_QUERY_PATH, None, FinbotLoginService.Client)
-                              req = LoginRequest()
-                              req.type = 1
-                              req.verifier = qr.verifier
-                              req.e2eeVersion = 1
-                              res = client.loginZ(req)
-                              client = createTransport3(FINBOT_API_QUERY_PATH_FIR, {'X-Line-Access':res.authToken}, FinbotService.Client)
-                             #print (res.authToken)
-                              kang.sendMessage(msg.to,str(res.authToken))
-
-                        elif 'auth win10' in msg.text:
-                           if msg._from in Master:
-                              client = createTransport4(FINBOT_AUTH_QUERY_PATH_FIR, None, FinbotService.Client)
-                              qr = client.getAuthQrcode(keepLoggedIn=1, systemName="FINBOT")
-                              uri = "line://au/q/" + qr.verifier
-                              _x = "『 Login at 』\n"+ LA4 + "\n『 By version 』\n"+ UA4
-                              kang.sendMessage(msg.to, _x + "\n\n" + "『 " +str(uri) +" 』"+ "\n\nKlik link above for your smartphone for 1 minute")
-                              header = {'User-Agent': UA4,'X-Line-Application': LA4,"x-lal" : "ja-US_US","x-lpqs" : FINBOT_AUTH_QUERY_PATH_FIR,'X-Line-Access': qr.verifier}
-                              getAccessKey = getJson(host + FINBOT_CERTIFICATE_PATH, header)
-                              client = createTransport4(FINBOT_AUTH_QUERY_PATH, None, FinbotLoginService.Client)
-                              req = LoginRequest()
-                              req.type = 1
-                              req.verifier = qr.verifier
-                              req.e2eeVersion = 1
-                              res = client.loginZ(req)
-                              client = createTransport4(FINBOT_API_QUERY_PATH_FIR, {'X-Line-Access':res.authToken}, FinbotService.Client)
-                              #print (res.authToken)
-                              kang.sendMessage(msg.to,str(res.authToken))
-
-                        elif 'auth clova' in msg.text:
-                           if msg._from in Master:
-                              client = createTransport5(FINBOT_AUTH_QUERY_PATH_FIR, None, FinbotService.Client)
-                              qr = client.getAuthQrcode(keepLoggedIn=1, systemName="FINBOT")
-                              uri = "line://au/q/" + qr.verifier
-                              _x = "Login at\n"+ LA5 + "\n\nBy version\n"+ UA5
-                              kang.sendMessage(msg.to, _x)
-                              kang.sendMessage(msg.to, str(uri))
-                              header = {
-                                               'User-Agent': UA5,
-                                               'X-Line-Application': LA5,
-                                               "x-lal" : "ja-US_US",
-                                               "x-lpqs" : FINBOT_AUTH_QUERY_PATH_FIR,'X-Line-Access': qr.verifier
-                                               }
-                              getAccessKey = getJson(host + FINBOT_CERTIFICATE_PATH, header)
-                              client = createTransport5(FINBOT_AUTH_QUERY_PATH, None, FinbotLoginService.Client)
-                              req = LoginRequest()
-                              req.type = 1
-                              req.verifier = qr.verifier
-                              req.e2eeVersion = 1
-                              res = client.loginZ(req)
-                              client = createTransport5(FINBOT_API_QUERY_PATH_FIR, {'X-Line-Access':res.authToken}, FinbotService.Client)
-                              #print (res.authToken)
-                              kang.sendMessage(msg.to,str(res.authToken))
-
-                        elif 'siplah' in msg.text.lower():
-                          if wait["bb"] == True:
-                            if msg._from in Master:
-                              bot1()
-                              run_bot["Token"] = ""
-                              run_bot["TokenMid"] = ""
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
 
                         elif cmd == "creator" or cmd == 'owner':
                             if msg._from in Master:
