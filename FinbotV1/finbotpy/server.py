@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from .config import Config
 import json, requests, urllib
-
 class Server(Config):
     _session        = requests.session()
     timelineHeaders = {}
