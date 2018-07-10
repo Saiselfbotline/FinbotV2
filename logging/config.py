@@ -1,19 +1,3 @@
-# Copyright 2001-2014 by Vinay Sajip. All Rights Reserved.
-#
-# Permission to use, copy, modify, and distribute this software and its
-# documentation for any purpose and without fee is hereby granted,
-# provided that the above copyright notice appear in all copies and that
-# both that copyright notice and this permission notice appear in
-# supporting documentation, and that the name of Vinay Sajip
-# not be used in advertising or publicity pertaining to distribution
-# of the software without specific, written prior permission.
-# VINAY SAJIP DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE, INCLUDING
-# ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL
-# VINAY SAJIP BE LIABLE FOR ANY SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES OR
-# ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER
-# IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT
-# OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-
 """
 Configuration functions for the logging package for Python. The core package
 is based on PEP 282 and comments thereto in comp.lang.python, and influenced
@@ -46,11 +30,6 @@ DEFAULT_LOGGING_CONFIG_PORT = 9030
 
 RESET_ERROR = errno.ECONNRESET
 
-#
-#   The following code implements a socket listener for on-the-fly
-#   reconfiguration of logging.
-#
-#   _listener holds the server object doing the listening
 _listener = None
 
 def fileConfig(fname, defaults=None, disable_existing_loggers=True):
@@ -75,12 +54,12 @@ def fileConfig(fname, defaults=None, disable_existing_loggers=True):
 
     formatters = _create_formatters(cp)
 
-    # critical section
+
     logging._acquireLock()
     try:
         logging._handlers.clear()
         del logging._handlerList[:]
-        # Handlers add themselves to logging._handlers
+  
         handlers = _install_handlers(cp, formatters)
         _install_loggers(cp, handlers, disable_existing_loggers)
     finally:
@@ -185,7 +164,7 @@ def _handle_existing_loggers(existing, child_loggers, disable_existing):
 def _install_loggers(cp, handlers, disable_existing):
     """Create and install loggers"""
 
-    # configure the root first
+   
     llist = cp["loggers"]["keys"]
     llist = llist.split(",")
     llist = list(map(lambda x: x.strip(), llist))
@@ -253,19 +232,6 @@ def _install_loggers(cp, handlers, disable_existing):
             for hand in hlist:
                 logger.addHandler(handlers[hand])
 
-    #Disable any old loggers. There's no point deleting
-    #them as other threads may continue to hold references
-    #and by disabling them, you stop them doing any logging.
-    #However, don't disable children of named loggers, as that's
-    #probably not what was intended by the user.
-    #for log in existing:
-    #    logger = root.manager.loggerDict[log]
-    #    if log in child_loggers:
-    #        logger.level = logging.NOTSET
-    #        logger.handlers = []
-    #        logger.propagate = 1
-    #    elif disable_existing_loggers:
-    #        logger.disabled = 1
     _handle_existing_loggers(existing, child_loggers, disable_existing)
 
 IDENTIFIER = re.compile('^[a-z_][a-z0-9_]*$', re.I)
@@ -565,7 +531,6 @@ class DictConfigurator(BaseConfigurator):
                             raise ValueError('Unable to configure handler '
                                              '%r: %s' % (name, e))
 
-                # Now do any that were deferred
                 for name in deferred:
                     try:
                         handler = self.configure_handler(handlers[name])
@@ -575,25 +540,12 @@ class DictConfigurator(BaseConfigurator):
                         raise ValueError('Unable to configure handler '
                                          '%r: %s' % (name, e))
 
-                # Next, do loggers - they refer to handlers and filters
 
-                #we don't want to lose the existing loggers,
-                #since other threads may have pointers to them.
-                #existing is set to contain all existing loggers,
-                #and as we go through the new configuration we
-                #remove any which are configured. At the end,
-                #what's left in existing is the set of loggers
-                #which were in the previous configuration but
-                #which are not in the new configuration.
                 root = logging.root
                 existing = list(root.manager.loggerDict.keys())
-                #The list needs to be sorted so that we can
-                #avoid disabling child loggers of explicitly
-                #named loggers. With a sorted list it is easier
-                #to find the child loggers.
+
                 existing.sort()
-                #We'll keep the list of existing loggers
-                #which are children of named loggers here...
+
                 child_loggers = []
                 #now set up the new ones...
                 loggers = config.get('loggers', EMPTY_DICT)
@@ -614,19 +566,7 @@ class DictConfigurator(BaseConfigurator):
                         raise ValueError('Unable to configure logger '
                                          '%r: %s' % (name, e))
 
-                #Disable any old loggers. There's no point deleting
-                #them as other threads may continue to hold references
-                #and by disabling them, you stop them doing any logging.
-                #However, don't disable children of named loggers, as that's
-                #probably not what was intended by the user.
-                #for log in existing:
-                #    logger = root.manager.loggerDict[log]
-                #    if log in child_loggers:
-                #        logger.level = logging.NOTSET
-                #        logger.handlers = []
-                #        logger.propagate = True
-                #    elif disable_existing:
-                #        logger.disabled = True
+
                 _handle_existing_loggers(existing, child_loggers,
                                          disable_existing)
 
