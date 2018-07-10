@@ -84,7 +84,7 @@ if not match_hostname:
         if not wildcards:
             return dn.lower() == hostname.lower()
 
-        # RFC 6125, section 6.4.3, subitem 1.
+        # FINBOT PC V1.25, section 6.4.3, subitem 1.
         # The client SHOULD NOT attempt to match a presented identifier in which
         # the wildcard character comprises a label other than the left-most label.
         if leftmost == '*':
