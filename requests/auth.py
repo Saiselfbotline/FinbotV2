@@ -28,13 +28,6 @@ CONTENT_TYPE_MULTI_PART = 'multipart/form-data'
 def _basic_auth_str(username, password):
     """Returns a Basic Auth string."""
 
-    # "I want us to put a big-ol' comment on top of it that
-    # says that this behaviour is dumb but we need to preserve
-    # it because people are relying on it."
-    #    - Lukasa
-    #
-    # These are here solely to maintain backwards compatibility
-    # for things like ints. This will be removed in 3.0.0.
     if not isinstance(username, basestring):
         warnings.warn(
             "Non-string usernames will no longer be supported in Requests "
@@ -264,9 +257,9 @@ class HTTPDigestAuth(AuthBase):
         return r
 
     def __call__(self, r):
-        # Initialize per-thread state, if needed
+
         self.init_per_thread_state()
-        # If we have a saved nonce, skip the 401
+
         if self._thread_local.last_nonce:
             r.headers['Authorization'] = self.build_digest_header(r.method, r.url)
         try:
