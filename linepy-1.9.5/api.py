@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from ThriftService.ttypes import IdentityProvider, LoginResultType
 from .server import LineServer
 from .session import LineSession
