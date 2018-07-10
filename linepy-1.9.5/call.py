@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+
 from .client import LineClient
 from ThriftService.ttypes import GroupCallMediaType
 from types import *
