@@ -17,10 +17,6 @@ from . import util
 __all__ = ['ensure_running', 'get_inherited_fds', 'connect_to_new_process',
            'set_forkserver_preload']
 
-#
-#
-#
-
 MAXFDS_TO_SEND = 256
 UNSIGNED_STRUCT = struct.Struct('Q')     # large enough for pid_t
 
