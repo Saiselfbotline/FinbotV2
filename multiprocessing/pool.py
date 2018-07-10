@@ -1,18 +1,4 @@
-#
-# Module providing the `Pool` class for managing a process pool
-#
-# multiprocessing/pool.py
-#
-# Copyright (c) 2006-2008, R Oudkerk
-# Licensed to PSF under a Contributor Agreement.
-#
-
 __all__ = ['Pool', 'ThreadPool']
-
-#
-# Imports
-#
-
 import threading
 import queue
 import itertools
