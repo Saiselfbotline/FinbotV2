@@ -6,7 +6,6 @@ __all__ = ['BaseTransport', 'ReadTransport', 'WriteTransport',
            'Transport', 'DatagramTransport', 'SubprocessTransport',
            ]
 
-
 class BaseTransport:
     """Base class for transports."""
 
