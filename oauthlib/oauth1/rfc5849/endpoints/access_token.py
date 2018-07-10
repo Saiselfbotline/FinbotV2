@@ -19,7 +19,6 @@ from .base import BaseEndpoint
 
 log = logging.getLogger(__name__)
 
-
 class AccessTokenEndpoint(BaseEndpoint):
 
     """An endpoint responsible for providing OAuth 1 access tokens.
