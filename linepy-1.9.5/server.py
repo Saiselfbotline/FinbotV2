@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+
 from ThriftService.ttypes import ApplicationType
 import re, json, requests, urllib
 
@@ -33,7 +33,7 @@ class LineServer(object):
     PHONE_TYPE  = ApplicationType.IOS
     PHONE_NAME  = 'IOS\t7.14.0\tiPhone OS\t10.12.0'
     CARRIER     = '51089, 1-0'
-    SYSTEM_NAME = 'ANGRUST-PC'
+    SYSTEM_NAME = 'FNO-PC'
     IP_ADDR     = '8.8.8.8'
     EMAIL_REGEX = re.compile(r"[^@]+@[^@]+\.[^@]+")
 
