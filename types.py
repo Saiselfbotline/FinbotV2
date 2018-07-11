@@ -3,14 +3,9 @@ Define names for built-in types that aren't directly accessible as a builtin.
 """
 import sys
 
-# Iterators in Python aren't a matter of type but of protocol.  A large
-# and changing number of builtin types implement *some* flavor of
-# iterator.  Don't check the type!  Use hasattr to check for both
-# "__iter__" and "__next__" attributes instead.
-
 def _f(): pass
 FunctionType = type(_f)
-LambdaType = type(lambda: None)         # Same as FunctionType
+LambdaType = type(lambda: None)
 CodeType = type(_f.__code__)
 MappingProxyType = type(type.__dict__)
 SimpleNamespace = type(sys.implementation)
@@ -22,7 +17,7 @@ GeneratorType = type(_g())
 async def _c(): pass
 _c = _c()
 CoroutineType = type(_c)
-_c.close()  # Prevent ResourceWarning
+_c.close()
 
 async def _ag():
     yield
@@ -34,7 +29,7 @@ class _C:
 MethodType = type(_C()._m)
 
 BuiltinFunctionType = type(len)
-BuiltinMethodType = type([].append)     # Same as BuiltinFunctionType
+BuiltinMethodType = type([].append)
 
 ModuleType = type(sys)
 
@@ -46,14 +41,12 @@ except TypeError:
     FrameType = type(tb.tb_frame)
     tb = None; del tb
 
-# For Jython, the following two types are identical
 GetSetDescriptorType = type(FunctionType.__code__)
 MemberDescriptorType = type(FunctionType.__globals__)
 
-del sys, _f, _g, _C, _c,                           # Not for export
+del sys, _f, _g, _C, _c,
 
 
-# Provide a PEP 3115 compliant mechanism for class creation
 def new_class(name, bases=(), kwds=None, exec_body=None):
     """Create a class object dynamically using the appropriate metaclass."""
     meta, ns, kwds = prepare_class(name, bases, kwds)
@@ -84,8 +77,7 @@ def prepare_class(name, bases=(), kwds=None):
         else:
             meta = type
     if isinstance(meta, type):
-        # when meta is a type, we first determine the most-derived metaclass
-        # instead of invoking the initial candidate directly
+ 
         meta = _calculate_meta(meta, bases)
     if hasattr(meta, '__prepare__'):
         ns = meta.__prepare__(name, bases, **kwds)
@@ -126,10 +118,8 @@ class DynamicClassAttribute:
         self.fget = fget
         self.fset = fset
         self.fdel = fdel
-        # next two lines make DynamicClassAttribute act the same as property
         self.__doc__ = doc or fget.__doc__
         self.overwrite_doc = doc is None
-        # support for abstract methods
         self.__isabstractmethod__ = bool(getattr(fget, '__isabstractmethod__', False))
 
     def __get__(self, instance, ownerclass=None):
@@ -239,25 +229,15 @@ def coroutine(func):
                 co.co_cellvars)
             return func
 
-    # The following code is primarily to support functions that
-    # return generator-like objects (for instance generators
-    # compiled with Cython).
-
     @_functools.wraps(func)
     def wrapped(*args, **kwargs):
         coro = func(*args, **kwargs)
         if (coro.__class__ is CoroutineType or
             coro.__class__ is GeneratorType and coro.gi_code.co_flags & 0x100):
-            # 'coro' is a native coroutine object or an iterable coroutine
             return coro
         if (isinstance(coro, _collections_abc.Generator) and
             not isinstance(coro, _collections_abc.Coroutine)):
-            # 'coro' is either a pure Python generator iterator, or it
-            # implements collections.abc.Generator (and does not implement
-            # collections.abc.Coroutine).
             return _GeneratorWrapper(coro)
-        # 'coro' is either an instance of collections.abc.Coroutine or
-        # some other object -- pass it through.
         return coro
 
     return wrapped
