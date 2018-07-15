@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from .token import Token
 import json, requests, urllib
-
 class Server(Token):
     _session        = requests.session()
     timelineHeaders = {}

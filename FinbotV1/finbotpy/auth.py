@@ -23,10 +23,6 @@ class Auth(object):
         self.poll       = Session(self.server.LINE_HOST_DOMAIN, self.server.Headers, self.server.LINE_POLL_QUERY_PATH_FIR).Talk()
         self.call       = Session(self.server.LINE_HOST_DOMAIN, self.server.Headers, self.server.LINE_CALL_QUERY_PATH).Call()
         self.channel    = Session(self.server.LINE_HOST_DOMAIN, self.server.Headers, self.server.LINE_CHAN_QUERY_PATH).FinbotChannel()
-        self.square     = Session(self.server.LINE_HOST_DOMAIN, self.server.Headers, self.server.LINE_SQUARE_QUERY_PATH).Square()
-        self.shop       = Session(self.server.LINE_HOST_DOMAIN, self.server.Headers, self.server.LINE_SHOP_QUERY_PATH).Shop()
-        #self.bot       = Session(self.server.LINE_HOST_DOMAIN, self.server.Headers, self.server.LINE_BOT_QUERY_PATH).Bot()
-        
         self.revision = self.poll.getLastOpRevision()
         self.isLogin = True
 

@@ -27,14 +27,14 @@ class Token(object):
         'LINE_SERVICES': '1459630796'
     }
 
-    #APP_TYPE    = ApplicationType._VALUES_TO_NAMES[112]
-    #APP_VER     = '8.4.1'
+    APP_TYPE    = ApplicationType.CHROMEOS
+    APP_VER     = '8.3.3'
     CARRIER     = '51089, 1-0'
-    SYSTEM_NAME = 'FINBOT'
+    SYSTEM_NAME = 'Chromeos'
     #SYSTEM_VER  = '10.10.2'
     IP_ADDR     = '8.8.8.8'
     EMAIL_REGEX = re.compile(r"[^@]+@[^@]+\.[^@]+")
 
     def __init__(self):
-        self.APP_NAME = 'CHROMEOS\t2.1.5\tChrome_OS\t2.1.5'
+        self.APP_NAME = 'CHROMEOS\t2.1.5\tLine\t2.1.5'
         self.USER_AGENT = 'Line/2.1.5'

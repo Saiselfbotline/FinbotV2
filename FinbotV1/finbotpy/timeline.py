@@ -2,7 +2,7 @@
 from datetime import datetime
 from .finbotchannel import FinbotChannel
 
-import json, time, base64
+import json, time, base64, requests
 
 def loggedIn(func):
     def checkLogin(*args, **kwargs):
@@ -29,6 +29,52 @@ class Timeline(FinbotChannel):
             'X-Line-ChannelToken': self.tl.channelAccessToken
         })
         self.profileDetail = self.getProfileDetail()
+
+    """LikeComment"""
+    @loggedIn
+    def like(self, mid, postid, likeType=1001):
+
+        header = {
+            "Content-Type" : "application/json",
+            "X-Line-Mid" : self.client.profile.mid,
+            "x-lct" : self.channelAccessToken,
+        }
+
+        payload = {
+            "likeType" : likeType,
+            "activityExternalId" : postid,
+            "actorId" : mid
+        }
+
+        r = requests.post(
+            self.server.LINE_TIMELINE_API + '/v23/like/create.json?homeId=' + mid,
+            headers = self.server.channelHeaders,
+            data = json.dumps(payload)
+        )
+        
+        return r.json()     
+        
+    @loggedIn    
+    def comment(self, mid, postid, text):
+        header = {
+            "Content-Type" : "application/json",
+            "X-Line-Mid" : self.client.profile.mid,
+            "x-lct" : self.channelAccessToken,
+        }
+
+        payload = {
+            "commentText" : text,
+            "activityExternalId" : postid,
+            "actorId" : mid
+        }
+
+        r = requests.post(
+            self.server.LINE_TIMELINE_API + '/v23/comment/create.json?homeId=' + mid,
+            headers = self.server.channelHeaders,
+            data = json.dumps(payload)
+        )
+        
+        return r.json()
 
     """Timeline"""
 

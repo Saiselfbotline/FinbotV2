@@ -7,8 +7,6 @@ import os, sys, threading, time
 class FinbotPoll(object):
     OpInterrupt = {}
     client = None
-    __squareSubId = {}
-    __squareSyncToken = {}
 
     def __init__(self, client):
         if type(client) is not FINBOTV1:
@@ -63,15 +61,3 @@ class FinbotPoll(object):
             if op.type in self.OpInterrupt.keys():
                 self.__execute(op, threading)
             self.setRevision(op.revision)
-
-    def singleFetchSquareChat(self, squareChatMid, limit=1):
-        if squareChatMid not in self.__squareSubId:
-            self.__squareSubId[squareChatMid] = 0
-        if squareChatMid not in self.__squareSyncToken:
-            self.__squareSyncToken[squareChatMid] = ''
-        
-        sqcEvents = self.client.fetchSquareChatEvents(squareChatMid, subscriptionId=self.__squareSubId[squareChatMid], syncToken=self.__squareSyncToken[squareChatMid], limit=limit, direction=1)
-        self.__squareSubId[squareChatMid] = sqcEvents.subscription
-        self.__squareSyncToken[squareChatMid] = sqcEvents.syncToken
-
-        return sqcEvents.events
