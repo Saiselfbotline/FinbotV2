@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
-from .config import Config
+from .token import Token
 import json, requests, urllib
-class Server(Config):
+
+class Server(Token):
     _session        = requests.session()
     timelineHeaders = {}
     Headers         = {}
@@ -9,7 +10,7 @@ class Server(Config):
     def __init__(self):
         self.Headers = {}
         self.channelHeaders = {}
-        Config.__init__(self)
+        Token.__init__(self)
 
     def parseUrl(self, path):
         return self.LINE_HOST_DOMAIN + path

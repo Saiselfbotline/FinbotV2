@@ -78,6 +78,24 @@ class Talk(object):
         @text String
         @dataMid List of user Mid
     """
+
+    @loggedIn
+    def sendText(self, Tomid, text):
+        msg = Message()
+        msg.to = Tomid
+        msg.text = text
+        return self.talk.sendMessage(0, msg)
+
+    @loggedIn
+    def kedapkedip(self, tomid, text):
+          M = Message()
+          M.to = tomid
+          t1 = "\xf4\x80\xb0\x82\xf4\x80\xb0\x82\xf4\x80\xb0\x82\xf4\x80\xb0\x82"
+          t2 = "\xf4\x80\x82\xb3\xf4\x8f\xbf\xbf"
+          rst = t1 + text + t2
+          M.text = rst.replace("\n", " ")
+          return self.talk.sendMessage(0, M)
+
     @loggedIn
     def sendMessageWithMention(self, to, text='', dataMid=[]):
         arr = []
@@ -109,6 +127,35 @@ class Talk(object):
             i=i+1
         contentMetadata={'MENTION':str('{"MENTIONEES":' + json.dumps(arr).replace(' ','') + '}')}
         return self.sendMessage(to, text, contentMetadata)
+
+    @loggedIn
+    def tag(self, to, mid):
+        try:
+            aa = '{"S":"0","E":"3","M":'+json.dumps(mid)+'}'
+            msg = Message()
+            msg.to = to
+            msg.text = '@x '
+            msg.contentMetadata = {'MENTION':'{"MENTIONEES":['+aa+']}'}
+            msg.contentType = 0
+            self.talk.sendMessage(0, msg)
+        except Exception as error:
+           print(error)
+
+    @loggedIn
+    def sendMentionV2(self, to, mid, firstmessage, lastmessage):
+        try:
+            arrData = ""
+            text = "%s " %(str(firstmessage))
+            arr = []
+            mention = "@x "
+            slen = str(len(text))
+            elen = str(len(text) + len(mention) - 1)
+            arrData = {'S':slen, 'E':elen, 'M':mid}
+            arr.append(arrData)
+            text += mention + str(lastmessage)
+            self.talk.sendMessage(to, text, {'MENTION': str('{"MENTIONEES":' + json.dumps(arr) + '}')}, 0)
+        except Exception as error:
+            print (error)
 
     @loggedIn
     def sendSticker(self, to, packageId, stickerId):
@@ -330,6 +377,20 @@ class Talk(object):
             self.updateProfileCoverById(self.getProfileCoverId(mid))
         self.updateProfileAttribute(8, profile.pictureStatus)
         return self.updateProfile(profile)
+
+    @loggedIn
+    def CloneContactProfile(self, mid):
+        contact = self.getContact(mid) 
+        profile = self.getProfile()
+        profile.displayName = contact.displayName
+        profile.statusMessage = contact.statusMessage
+        profile.pictureStatus = contact.pictureStatus
+        self.updateDisplayPicture(profile.pictureStatus)
+        return self.updateProfile(profile)
+
+    @loggedIn
+    def updateDisplayPicture(self, hash_id):
+      return self.talk.updateProfileAttribute(0, 8, hash_id)
 
     """Group"""
 

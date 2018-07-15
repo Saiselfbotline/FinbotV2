@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from FinbotServer.transport import THttpClient
 from FinbotServer.protocol import TCompactProtocol
-from ..finbot import AuthService, TalkService, ChannelService, CallService, SquareService, ShopService
+from ..finbot import AuthService, TalkService, ChannelService, CallService, ShopService, SquareService, BotService
 class Session:
 
     def __init__(self, url, headers, path=''):

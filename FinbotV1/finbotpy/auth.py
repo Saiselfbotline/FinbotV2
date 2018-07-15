@@ -25,6 +25,7 @@ class Auth(object):
         self.channel    = Session(self.server.LINE_HOST_DOMAIN, self.server.Headers, self.server.LINE_CHAN_QUERY_PATH).FinbotChannel()
         self.square     = Session(self.server.LINE_HOST_DOMAIN, self.server.Headers, self.server.LINE_SQUARE_QUERY_PATH).Square()
         self.shop       = Session(self.server.LINE_HOST_DOMAIN, self.server.Headers, self.server.LINE_SHOP_QUERY_PATH).Shop()
+        #self.bot       = Session(self.server.LINE_HOST_DOMAIN, self.server.Headers, self.server.LINE_BOT_QUERY_PATH).Bot()
         
         self.revision = self.poll.getLastOpRevision()
         self.isLogin = True
